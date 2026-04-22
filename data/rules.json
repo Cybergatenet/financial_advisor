@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "condition": "profile['risk_tolerance'] == 'low' and user_age > 60",
+    "action": "recommend_bonds",
+    "explanation": "Increase bond allocation to 60% to preserve capital.",
+    "priority": 10,
+    "is_active": true
+  },
+  {
+    "id": 2,
+    "condition": "profile['savings'] < profile['annual_income'] * 0.25",
+    "action": "recommend_emergency_fund",
+    "explanation": "Build emergency fund covering 6 months of expenses.",
+    "priority": 8,
+    "is_active": true
+  }
+]
