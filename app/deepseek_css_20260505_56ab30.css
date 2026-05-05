@@ -1,0 +1,173 @@
+/* XAIRecommendationCard.css */
+.xai-card {
+  max-width: 480px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 35px -10px rgba(0,0,0,0.15);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #1a237e, #0d47a1);
+  padding: 20px 24px;
+  color: white;
+}
+
+.badge {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.title-row h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.confidence-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.confidence-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 3px;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section h4 {
+  font-size: 12px;
+  color: #6c757d;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.factors-list {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.factor-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.factor-item:last-child {
+  border-bottom: none;
+}
+
+.positive {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.negative {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.shap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.shap-label {
+  width: 140px;
+  font-size: 12px;
+}
+
+.shap-bar-bg {
+  flex: 1;
+  height: 28px;
+  background: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.shap-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.shap-bar.positive {
+  background: linear-gradient(90deg, #a5d6a7, #2e7d32);
+}
+
+.shap-bar.negative {
+  background: linear-gradient(90deg, #ef9a9a, #c62828);
+}
+
+.xai-button {
+  width: 100%;
+  padding: 14px;
+  background: white;
+  border: 2px solid #1a237e;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #1a237e;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.xai-button:hover {
+  background: #1a237e;
+  color: white;
+}
+
+.explanation-note {
+  background: #e3f2fd;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.explanation-note p {
+  margin: 6px 0 0;
+  color: #1a237e;
+}
+
+.card-footer {
+  padding: 12px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  font-size: 11px;
+  color: #6c757d;
+  text-align: center;
+}

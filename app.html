@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figure 5.7 - XAI-Enhanced Recommendation Card Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main Card Container */
+        .recommendation-card {
+            max-width: 480px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header Section */
+        .card-header {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            padding: 20px 24px;
+            color: white;
+        }
+
+        .action-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .recommendation-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .confidence-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .confidence-score {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .confidence-meter {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            width: 89%;
+            height: 100%;
+            background: #4caf50;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        /* Body Section */
+        .card-body {
+            padding: 24px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        /* Top Factors List */
+        .factors-list {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .factor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .factor-item:last-child {
+            border-bottom: none;
+        }
+
+        .factor-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .factor-impact {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .factor-impact.positive {
+            color: #2e7d32;
+        }
+
+        /* SHAP Visualization (Mini Bar Chart) */
+        .shap-visualization {
+            margin-bottom: 24px;
+        }
+
+        .shap-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .shap-label {
+            width: 120px;
+            font-size: 12px;
+            color: #495057;
+        }
+
+        .shap-bar-bg {
+            flex: 1;
+            height: 28px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .shap-bar-positive {
+            height: 100%;
+            background: linear-gradient(90deg, #a5d6a7, #2e7d32);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .shap-bar-negative {
+            height: 100%;
+            background: linear-gradient(90deg, #ef9a9a, #c62828);
+            border-radius: 6px;
+        }
+
+        .shap-value {
+            font-size: 11px;
+            font-weight: 500;
+            color: #495057;
+            min-width: 45px;
+            text-align: right;
+        }
+
+        /* Button */
+        .xai-button {
+            width: 100%;
+            padding: 14px 20px;
+            background: white;
+            border: 2px solid #1a237e;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a237e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .xai-button:hover {
+            background: #1a237e;
+            color: white;
+            transform: scale(1.01);
+        }
+
+        /* Tooltip Style */
+        .tooltip-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #6c757d;
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            text-align: center;
+            line-height: 16px;
+            margin-left: 6px;
+            cursor: help;
+        }
+
+        /* Footer */
+        .card-footer {
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            font-size: 11px;
+            color: #6c757d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="recommendation-card">
+        <!-- Header -->
+        <div class="card-header">
+            <div class="action-badge">⭐ AI RECOMMENDATION</div>
+            <div class="recommendation-title">
+                Buy VTI
+                <span style="font-size: 18px;">📈</span>
+            </div>
+            <div class="confidence-container">
+                <span class="confidence-score">Confidence: 0.89</span>
+                <div class="confidence-meter">
+                    <div class="confidence-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+            <!-- Top Factors Section -->
+            <div class="section-label">
+                🔍 TOP CONTRIBUTING FACTORS
+                <span class="tooltip-icon" title="SHAP values show how each factor influenced this recommendation">?</span>
+            </div>
+            <div class="factors-list">
+                <div class="factor-item">
+                    <span class="factor-name">📊 Low P/E Ratio</span>
+                    <span class="factor-impact positive">+32% ▲</span>
+                </div>
+                <div class="factor-item">
+                    <span class="factor-name">⚡ Positive Momentum (12-month)</span>
+                    <span class="factor-impact positive">+28% ▲</span>
+                </div>
+                <div class="factor-item">
+                    <span class="factor-name">🔄 Sector Diversification Benefit</span>
+                    <span class="factor-impact positive">+15% ▲</span>
+                </div>
+                <div class="factor-item">
+                    <span class="factor-name">📉 Interest Rate Sensitivity</span>
+                    <span class="factor-impact" style="color:#c62828;">-8% ▼</span>
+                </div>
+            </div>
+
+            <!-- SHAP Visualization (Detailed) -->
+            <div class="section-label">📊 SHAP FORCE PLOT (CONTRIBUTION BREAKDOWN)</div>
+            <div class="shap-visualization">
+                <div class="shap-bar-container">
+                    <span class="shap-label">Low P/E Ratio</span>
+                    <div class="shap-bar-bg">
+                        <div class="shap-bar-positive" style="width: 32%;">+0.32</div>
+                    </div>
+                    <span class="shap-value">+32%</span>
+                </div>
+                <div class="shap-bar-container">
+                    <span class="shap-label">Positive Momentum</span>
+                    <div class="shap-bar-bg">
+                        <div class="shap-bar-positive" style="width: 28%;">+0.28</div>
+                    </div>
+                    <span class="shap-value">+28%</span>
+                </div>
+                <div class="shap-bar-container">
+                    <span class="shap-label">Sector Diversification</span>
+                    <div class="shap-bar-bg">
+                        <div class="shap-bar-positive" style="width: 15%;">+0.15</div>
+                    </div>
+                    <span class="shap-value">+15%</span>
+                </div>
+                <div class="shap-bar-container">
+                    <span class="shap-label">Interest Rate Sensitivity</span>
+                    <div class="shap-bar-bg">
+                        <div class="shap-bar-negative" style="width: 8%;"></div>
+                    </div>
+                    <span class="shap-value">-8%</span>
+                </div>
+                <div class="shap-bar-container">
+                    <span class="shap-label">Base Value</span>
+                    <div class="shap-bar-bg">
+                        <div class="shap-bar-positive" style="width: 22%; background: #9e9e9e;">0.22</div>
+                    </div>
+                    <span class="shap-value">+22%</span>
+                </div>
+            </div>
+
+            <!-- XAI Button -->
+            <button class="xai-button" onclick="alert('Full SHAP explanation would show: \n\n• Feature importance values\n• Waterfall plot\n• Individual prediction breakdown\n• Alternative scenarios')">
+                🔬 See full SHAP explanation
+                <span style="font-size: 16px;">→</span>
+            </button>
+
+            <!-- Explanation Text -->
+            <div style="margin-top: 16px; padding: 12px; background: #e3f2fd; border-radius: 12px;">
+                <div style="font-size: 12px; font-weight: 600; color: #0d47a1; margin-bottom: 6px;">💡 Why this recommendation?</div>
+                <div style="font-size: 13px; color: #1a237e; line-height: 1.5;">
+                    VTI offers broad market exposure with low fees. The model identified attractive valuation (P/E below historical average), 
+                    strong recent performance, and portfolio diversification benefits. Interest rate sensitivity slightly reduces confidence.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+            ⚡ Inference time: 1.2s | Model: Random Forest (100 trees) | SHAP values calculated in real-time
+        </div>
+    </div>
+</body>
+</html>

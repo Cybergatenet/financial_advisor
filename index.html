@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figure 4.10 - Client Dashboard Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            padding: 30px;
+        }
+
+        /* Dashboard Container */
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #1a237e;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #1a237e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* 2x2 Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        /* Portfolio Summary Card (Top Left) - Pie Chart */
+        .pie-chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pie {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #1565c0 0% 45%,
+                #4caf50 45% 70%,
+                #ff9800 70% 85%,
+                #9e9e9e 85% 100%
+            );
+            margin-bottom: 10px;
+        }
+
+        .portfolio-stats {
+            flex: 1;
+        }
+
+        .total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a237e;
+        }
+
+        .change-positive {
+            color: #4caf50;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .allocation-list {
+            margin-top: 15px;
+        }
+
+        .allocation-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin: 6px 0;
+        }
+
+        .color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Risk Meter Card (Top Right) - Speedometer */
+        .gauge-container {
+            text-align: center;
+        }
+
+        .gauge {
+            width: 180px;
+            height: 90px;
+            background: linear-gradient(90deg, #4caf50 0%, #ffeb3b 50%, #f44336 100%);
+            border-radius: 90px 90px 0 0;
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gauge-needle {
+            width: 4px;
+            height: 70px;
+            background: #333;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom;
+            transform: rotate(-15deg);
+        }
+
+        .gauge-center {
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .risk-label {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .risk-medium {
+            color: #ff9800;
+        }
+
+        .risk-levels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+
+        /* Recommendations Card (Bottom Left) */
+        .rec-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid #4caf50;
+        }
+
+        .rec-card:hover {
+            background: #e9ecef;
+        }
+
+        .rec-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .rec-desc {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+
+        .rec-confidence {
+            font-size: 11px;
+            color: #4caf50;
+            margin-top: 6px;
+        }
+
+        .accept-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .reject-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Chat Interface (Bottom Right) */
+        .chat-messages {
+            height: 250px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 18px;
+            font-size: 13px;
+        }
+
+        .message.user .message-bubble {
+            background: #1a237e;
+            color: white;
+        }
+
+        .message.bot .message-bubble {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 24px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 AI Financial Advisor Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, Alozie Peace</span>
+                <div class="user-avatar">M</div>
+            </div>
+        </div>
+
+        <!-- 2x2 Grid -->
+        <div class="grid">
+            <!-- Card 1: Portfolio Summary with Pie Chart -->
+            <div class="card">
+                <div class="card-title">📊 PORTFOLIO SUMMARY</div>
+                <div class="pie-chart-container">
+                    <div class="pie"></div>
+                    <div class="portfolio-stats">
+                        <div class="total-value">$247,500</div>
+                        <div class="change-positive">▲ +12.4% this year</div>
+                        <div class="allocation-list">
+                            <div class="allocation-item">
+                                <span><span class="color-dot" style="background:#1565c0;"></span>Stocks</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="allocation-item">
+                                <span><span class="color-dot" style="background:#4caf50;"></span>Bonds</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="allocation-item">
+                                <span><span class="color-dot" style="background:#ff9800;"></span>ETFs</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="allocation-item">
+                                <span><span class="color-dot" style="background:#9e9e9e;"></span>Cash</span>
+                                <span>15%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Risk Meter (Speedometer) -->
+            <div class="card">
+                <div class="card-title">⚠️ RISK METER</div>
+                <div class="gauge-container">
+                    <div class="gauge" style="position: relative;">
+                        <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                            <div style="width: 4px; height: 60px; background: #333; transform: rotate(-10deg); transform-origin: bottom; margin-left: -2px;"></div>
+                            <div style="width: 16px; height: 16px; background: #333; border-radius: 50%; margin-top: -8px; margin-left: -8px;"></div>
+                        </div>
+                    </div>
+                    <div class="risk-label risk-medium">MEDIUM</div>
+                    <div class="risk-levels">
+                        <span>Low</span>
+                        <span>Moderate</span>
+                        <span>High</span>
+                        <span>Aggressive</span>
+                    </div>
+                    <div style="font-size: 12px; color: #6c757d; margin-top: 12px;">
+                        Your current risk is within target range
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: AI Recommendations -->
+            <div class="card">
+                <div class="card-title">💡 AI RECOMMENDATIONS</div>
+                
+                <div class="rec-card">
+                    <div class="rec-title">📈 Buy VTI (Vanguard Total Stock Market)</div>
+                    <div class="rec-desc">Low expense ratio, broad diversification, strong momentum</div>
+                    <div class="rec-confidence">Confidence: 0.89</div>
+                    <div style="margin-top: 8px;">
+                        <button class="accept-btn">✓ Accept</button>
+                        <button class="reject-btn">✗ Reject</button>
+                    </div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-title">💰 Increase emergency fund</div>
+                    <div class="rec-desc">Current savings cover 3 months. Target: 6 months expenses</div>
+                    <div class="rec-confidence">Confidence: 0.94 (Rule-based)</div>
+                    <div style="margin-top: 8px;">
+                        <button class="accept-btn">✓ Accept</button>
+                        <button class="reject-btn">✗ Reject</button>
+                    </div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-title">🔄 Rebalance 401(k) to 60/40</div>
+                    <div class="rec-desc">Current allocation drifts to 70/30. Rebalance to target.</div>
+                    <div class="rec-confidence">Confidence: 0.76</div>
+                    <div style="margin-top: 8px;">
+                        <button class="accept-btn">✓ Accept</button>
+                        <button class="reject-btn">✗ Reject</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Chat Interface -->
+            <div class="card">
+                <div class="card-title">💬 ASK THE AI ADVISOR</div>
+                <div class="chat-messages">
+                    <div class="message bot">
+                        <div class="message-bubble">Hello! I'm your AI financial advisor. Ask me anything about your portfolio, investments, or financial planning.</div>
+                    </div>
+                    <div class="message user">
+                        <div class="message-bubble">Should I sell my tech stocks?</div>
+                    </div>
+                    <div class="message bot">
+                        <div class="message-bubble">Based on current valuations and your medium risk tolerance, I recommend holding tech stocks but consider diversifying. The sector has strong long-term potential but short-term volatility is expected.</div>
+                    </div>
+                    <div class="message user">
+                        <div class="message-bubble">What about bonds right now?</div>
+                    </div>
+                    <div class="message bot">
+                        <div class="message-bubble">With current interest rates, short-term Treasury bonds offer attractive yields. Consider allocating 5-10% to BIL or SHV for stability.</div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your question..." id="chatInput">
+                    <button onclick="alert('Message sent! (Mockup)')">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
